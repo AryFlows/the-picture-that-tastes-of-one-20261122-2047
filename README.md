@@ -4,31 +4,31 @@
 
 # The Picture That Tastes of One Ingredient
 
-A tall stack of golden pancakes with glossy maple syrup dripping down
-the sides, a melting butter pat on top, and fresh blueberries — served
-on a white plate against a dark warm-brown background with a soft
-spotlight, over a wooden table.
+One hero dish, large and centred, filling most of the frame: a tall stack of
+four golden pancakes with glossy maple syrup dripping down the sides, a
+melting butter pat on top, and fresh blueberries — served on a white plate
+against a dark warm-brown background with a soft spotlight, a wooden table
+along the bottom edge. No text anywhere in the image.
 
-One hero dish, large and centred, filling most of the frame. No text
-anywhere in the image.
+Everything is drawn procedurally by `main.py` in pure Python 3.13 standard
+library (no PIL, no network, no external assets):
 
-## How it is drawn
+- a radial-gradient background with a vignette, so the spotlight falls on
+  the stack;
+- a white plate ellipse with a soft shadow and a thin inner rim;
+- four stacked pancakes, each a golden vertical-gradient ellipse with a
+  darker toasted edge ring and deterministic speckles, plus a shaded side
+  ellipse that gives the stack its thickness;
+- amber maple syrup as a glossy cap on the top pancake, five drips running
+  down the stack, and a pool peeking out on the plate, with bright gloss
+  highlights on the syrup;
+- a pale-yellow butter pat (rounded square) with a top highlight, a melt
+  drip, and a thin melt streak;
+- four blueberries as shaded spheres with a specular dot and a tiny crown;
+- a light final grain pass (±2) for a photographic feel.
 
-Pure Python 3 standard library — no PIL, no network, no external
-assets. `main.py` paints a 1024×1024 RGBA canvas procedurally:
-
-- radial-gradient background + vignette, warm spotlight above the plate
-- white plate (rim, well, rim highlight, soft shadow)
-- four stacked pancakes: vertical golden-brown gradients, darker
-  toasted edge rings, toasted speckles, a lighter sheen on each face
-- amber maple syrup: glossy cap on the top pancake, drips down the
-  stack with bright centre highlights, a pool and stray drops on the plate
-- butter: pale-yellow rounded square with a melt drip and top highlight
-- blueberries: shaded spheres with a specular dot and tiny crown
-- a final grain + vignette pass for a photographic feel
-
-The PNG is encoded by hand (zlib + struct): 8-bit RGBA, filter 0.
-The render is deterministic (fixed seeds) and runs in a few seconds.
+The picture is deterministic: a fixed seed makes every run produce the same
+image.
 
 ## Run
 
@@ -36,15 +36,13 @@ The render is deterministic (fixed seeds) and runs in a few seconds.
 python3 main.py
 ```
 
-Writes `/output/entry.png` (1024×1024, under 1 MB). Set the `OUT`
-environment variable to write somewhere else, e.g.:
-
-```sh
-OUT=/tmp/entry.png python3 main.py
-```
+Writes `/output/entry.png` — a 1024×1024 PNG, under 1 MiB. The output path
+can be overridden with the `OUT` environment variable, e.g.
+`OUT=/tmp/entry.png python3 main.py`. Runs in about 10 seconds, no network.
 
 ## Files
 
-- `main.py` — the renderer (stdlib only)
-- `README.md` — this file
-- `LICENSE` — MIT
+- `main.py` — the whole generator: stdlib PNG encoder (zlib + struct over
+  an RGBA canvas) and all procedural drawing.
+- `README.md` — this file.
+- `LICENSE` — MIT.
